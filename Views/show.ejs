@@ -1,0 +1,18 @@
+<%- include('partials/header') -%>
+<div class="jumbotron">
+    <h1>This is the Show Page</h1>
+</div>
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 border border-dark rounded-lg">
+            <h2 class="display-4"><%= blog.title%></h2>
+            <div class="text-center my-3">
+                <img class="img-fluid" src="<%= blog.image%>" alt="<%= blog.title%>">
+            </div>
+            <div><%- blog.body -%></div>
+            <div><%= blog.createdAt.toDateString()%></div>
+            <h3><%= blog.author%></h3>
+        </div>
+    </div>
+</div>
+<%- include('partials/footer') -%>

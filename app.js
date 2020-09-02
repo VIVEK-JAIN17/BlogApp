@@ -73,6 +73,15 @@ app.post("/blogs", (req, res) => {
             res.redirect('/blogs');
         }).catch((err) => { console.log(err) });
 });
+
+// SHOW : Displays details of a particular Entity, here, Blog
+app.get("/blogs/:id", (req, res) => {
+    Blog.findById(req.params.id)
+        .then((blog) => {
+            res.render("show", { blog: blog });
+        }).catch((err) => { console.log("Error", err) });
+});
+
 const host = 'localhost';
 const port = 3000;
 
