@@ -6,7 +6,7 @@ var app = express();
 
 // APP CONFIG
 app.set("view engine", "ejs");
-app.use(express.static("public"));
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extedned: true }));
 
 // APP/MONGOOSE CONFIG
@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
-// INDEX : Displays All Entities, here Blogs
+// INDEX : Displays All Entities, here, Blogs
 app.get("/blogs", (req, res) => {
     Blog.find({})
         .then((blogs) => {
@@ -55,6 +55,24 @@ app.get("/blogs", (req, res) => {
         }).catch((err) => { console.log("ERROR", err) });
 });
 
+// NEW : Renders a Form to Create a new Entity, here, Blog
+app.get("/blogs/new", (req, res) => {
+    res.render("new");
+});
+
+// CREATE : Actually Creates a new Entity, here, Blog
+app.post("/blogs", (req, res) => {
+    var name = req.body.name;
+    var title = req.body.title;
+    var image = req.body.image;
+    var desc = req.body.body;
+    var newBlog = { author: name, title: title, image: image, body: desc };
+    Blog.create(newBlog)
+        .then((blog) => {
+            console.log("created a new Entity(blog)", blog);
+            res.redirect('/blogs');
+        }).catch((err) => { console.log(err) });
+});
 const host = 'localhost';
 const port = 3000;
 

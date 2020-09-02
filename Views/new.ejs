@@ -1,0 +1,28 @@
+<%- include('partials/header') -%>
+<h1>This is the new Page</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="/blogs" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Author Name" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="title" id="title" placeholder="Title" />
+                </div>
+                <div class="form-group">
+                    <input type="url" class="form-control" name="image" id="image" placeholder="image URL" />
+                </div>
+                <div class="form-group">
+                    <textarea name="body" id="body" rows="10" class="form-control"
+                        placeholder="Write your Blog Here !"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="form-control btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('partials/footer') -%>
