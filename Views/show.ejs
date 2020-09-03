@@ -11,7 +11,8 @@
             </div>
             <div><%- blog.body -%></div>
             <div><%= blog.createdAt.toDateString()%></div>
-            <h3><%= blog.author%></h3>
+            <h3 class=""><%= blog.author%></h3>
+            <a class="btn btn-outline-warning" href="/blogs/<%= blog._id %>/edit">Edit</a>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 var mongoose = require('mongoose');
 
 var app = express();
@@ -8,6 +9,7 @@ var app = express();
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extedned: true }));
+app.use(methodOverride("_method"));
 
 // APP/MONGOOSE CONFIG
 const url = "mongodb://localhost:27017/blogApp";
@@ -79,6 +81,23 @@ app.get("/blogs/:id", (req, res) => {
     Blog.findById(req.params.id)
         .then((blog) => {
             res.render("show", { blog: blog });
+        }).catch((err) => { console.log("Error", err) });
+});
+
+// EDIT : Renders a form to gather info to Update an Entity, here, Blog
+app.get("/blogs/:id/edit", (req, res) => {
+    Blog.findById(req.params.id)
+        .then((blog) => {
+            res.render("edit", { blog: blog });
+        }).catch((err) => { console.log("Error", err) });
+});
+
+// UPDATE : Actually Updates an Existing Entity, here, Blog
+app.put("/blogs/:id", (req, res) => {
+    Blog.findByIdAndUpdate(req.params.id, req.body.newBlog)
+        .then((blog) => {
+            console.log("Blog Updated", blog);
+            res.redirect("/blogs/" + req.params.id);
         }).catch((err) => { console.log("Error", err) });
 });
 
