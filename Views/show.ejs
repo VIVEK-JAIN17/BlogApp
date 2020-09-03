@@ -13,6 +13,9 @@
             <div><%= blog.createdAt.toDateString()%></div>
             <h3 class=""><%= blog.author%></h3>
             <a class="btn btn-outline-warning" href="/blogs/<%= blog._id %>/edit">Edit</a>
+            <form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+            </form>
         </div>
     </div>
 </div>

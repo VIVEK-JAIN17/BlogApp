@@ -101,6 +101,15 @@ app.put("/blogs/:id", (req, res) => {
         }).catch((err) => { console.log("Error", err) });
 });
 
+// DELETE : Deletes an Entity from the database permanently, here, Blog
+app.delete("/blogs/:id", (req, res) => {
+    Blog.findByIdAndRemove(req.params.id)
+        .then((blog) => {
+            console.log("Deleted Blog", blog);
+            res.redirect("/blogs");
+        }).catch((err) => { console.log("ERROR", err) });
+});
+
 const host = 'localhost';
 const port = 3000;
 
