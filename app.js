@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var expressSanitizer = require('express-sanitizer');
 var mongoose = require('mongoose');
 
 var app = express();
@@ -8,12 +9,13 @@ var app = express();
 // APP CONFIG
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({ extedned: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(expressSanitizer());
 
 // APP/MONGOOSE CONFIG
 const url = "mongodb://localhost:27017/blogApp";
-const connect = mongoose.connect(url, { useNewUrlParser: true });
+const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 const Schema = mongoose.Schema;
 
 // MONGOOSE/MODEL CONFIG
@@ -30,19 +32,12 @@ var blogSchema = new Schema({
         type: String,
         required: true
     },
-    author: {
+    name: {
         type: String,
         required: true
     },
 }, { timestamps: true });
 var Blog = mongoose.model('Blog', blogSchema);
-
-// Blog.create({
-//     image: "http://via.placeholder.com/300",
-//     title: "Fisrt Blog",
-//     body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum blanditiis quae iusto! Laudantium ab, soluta temporaodio amet commodi temporibus!",
-//     author: "Test Author"
-// });
 
 // RESTFUL ROUTES
 app.get("/", (req, res) => {
@@ -64,11 +59,11 @@ app.get("/blogs/new", (req, res) => {
 
 // CREATE : Actually Creates a new Entity, here, Blog
 app.post("/blogs", (req, res) => {
-    var name = req.body.name;
-    var title = req.body.title;
-    var image = req.body.image;
-    var desc = req.body.body;
-    var newBlog = { author: name, title: title, image: image, body: desc };
+    console.log(req.body);
+    req.body.blog.body = req.sanitize(req.body.blog.body);
+    console.log("==============");
+    console.log(req.body);
+    var newBlog = req.body.blog;
     Blog.create(newBlog)
         .then((blog) => {
             console.log("created a new Entity(blog)", blog);

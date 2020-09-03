@@ -7,20 +7,23 @@
         <div class="col-lg-8">
             <form action="/blogs" method="POST">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Author Name" />
+                    <label for="blog[name]" class="form-label">Author</label>
+                    <input type="text" class="form-control" name="blog[name]" id="name" placeholder="Author Name" />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="title" id="title" placeholder="Title" />
+                    <label for="blog[title]" class="form-label">Title</label>
+                    <input type="text" class="form-control" name="blog[title]" id="title" placeholder="Title" />
                 </div>
                 <div class="form-group">
-                    <input type="url" class="form-control" name="image" id="image" placeholder="image URL" />
+                    <label for="blog[image]" class="form-label">Upload an Image</label>
+                    <input type="url" class="form-control" name="blog[image]" id="image" placeholder="image URL" />
                 </div>
                 <div class="form-group">
-                    <textarea name="body" id="body" rows="15" class="form-control"
+                    <textarea name="blog[body]" id="body" rows="15" class="form-control"
                         placeholder="Write your Blog Here !"></textarea>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-outline-primary btn-lg" />
+                    <input type="submit" class="btn btn-primary btn-lg" />
                 </div>
             </form>
         </div>

@@ -1,14 +1,81 @@
+/* HEADER */
+
 ul.navbar-nav > li.nav-item > a.nav-link {
   color: #fff;
   font-size: 1.1rem;
 }
 
-.jumbotron{
-    text-align: center;
-    margin-top: 50px;
-    text-transform: uppercase;
+.jumbotron {
+  text-align: center;
+  padding-top: 7.5rem;
+  padding-bottom: 7.5rem;
+  margin-top: 50px;
+  text-transform: uppercase;
 }
 
 li.nav-item:hover {
   opacity: 0.8;
+}
+
+/* INDEX */
+
+ul.list-unstyled > li {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #32373d6c;
+  margin-bottom: 1rem;
+}
+
+ul.list-unstyled > li:last-child {
+  border-bottom: none;
+}
+
+ul.list-unstyled > li.media header.header {
+  text-transform: capitalize;
+}
+
+header {
+  text-transform: capitalize;
+}
+
+/* SHOW */
+
+#detail {
+  border: 1px solid #dee2e6;
+  text-align: justify;
+}
+
+header.header .title {
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid #dee2e6;
+}
+
+@media all and (max-width: 768px) {
+  #detail {
+    border: none;
+  }
+}
+/* BUTTONS */
+
+.btn {
+  padding: 0.25rem 1.5rem;
+  margin-right: 0.75rem;
+}
+
+.btn.btn-outline-warning:hover {
+  color: #ffc107;
+  background-color: transparent;
+}
+
+.btn.btn-outline-danger:hover {
+  color: #dc3545;
+  background-color: transparent;
+}
+
+.btn.btn-outline-info {
+  padding: 0.25rem 0.5rem;
+}
+
+.btn.btn-outline-info:hover {
+  color: #17a2b8;
+  background-color: transparent;
 }
