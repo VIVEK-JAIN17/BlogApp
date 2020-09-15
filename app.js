@@ -1,31 +1,62 @@
+// Express
 const express = require('express');
+const app = express();
+
+// Other
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const expressSanitizer = require('express-sanitizer');
-const mongoose = require('mongoose');
+
+// Passport
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('./models/user');
+
+// Routes
 const blogRouter = require('./routes/blogs');
 const commentRouter = require('./routes/comments');
+const authRouter = require('./routes/auth');
 
-const app = express();
+// MONGOOSE CONFIG
+const mongoose = require('mongoose');
+const url = "mongodb://localhost:27017/blogApp";
+const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
-// APP CONFIG
+// GLOBAL MIDDLEWARES
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(expressSanitizer());
 
-app.use("/blogs", blogRouter);
-app.use("/blogs/:id/comments", commentRouter);
+// PASSPORT CONFIG
+app.use(require('express-session')({
+    name: "session-id",
+    secret: "12345-BlogApp-54321",
+    resave: false,
+    saveUninitialized: false
+}));
 
-// APP/MONGOOSE CONFIG
-const url = "mongodb://localhost:27017/blogApp";
-const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-// RESTFUL ROUTES
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+});
+
+// LANDING ROUTE
 app.get("/", (req, res) => {
     res.render("home");
 });
+
+// ROUTES CONFIG
+app.use("/", authRouter);
+app.use("/blogs", blogRouter);
+app.use("/blogs/:id/comments", commentRouter);
 
 connect.then(() => {
     console.log("Correctly Connected to MongoDB Server at " + url);

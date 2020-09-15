@@ -33,12 +33,12 @@
                     <%blog.comments.forEach(comment => { %>
                     <li class="mb-3">
                         <small class="float-right">10 days ago</small>
-
+                        <strong><i class="fa fa-user-circle-o mr-2"></i>Author</strong>
                         <div>
                             <small class="float-right">
                                 <a href="/blogs/<%= blog._id %>/comments/<%= comment._id %>/edit">edit</a>
                                 <form action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE"
-                                    class="d-inline" method="POST">
+                                    class="d-inline ml-2" method="POST">
                                     <button class="btn btn-outline-danger btn-sm" type="submit">
                                         <i class="fa fa-trash-o"></i>
                                     </button>

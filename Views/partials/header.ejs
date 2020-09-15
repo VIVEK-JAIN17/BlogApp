@@ -30,6 +30,15 @@
                         <a href="/blogs/new" class="nav-link">New</a>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav ml-auto">
+                    <% if(!currentUser) { %>
+                    <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+                    <li class="nav-item"><a href="/signup" class="nav-link">Sign Up</a></li>
+                    <% } else { %>
+                    <li class="nav-item"><a href="#" class="nav-link">Signed in as <%= currentUser.username %></a></li>
+                    <li class="nav-item"><a href="/logout" class="nav-link">Log Out</a></li>
+                    <% } %>
+                </ul>
             </div>
         </div>
     </nav>
