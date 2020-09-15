@@ -31,11 +31,21 @@
                 <hr>
                 <ul class="list-unstyled">
                     <%blog.comments.forEach(comment => { %>
-                    <% console.log(comment)%>
                     <li class="mb-3">
                         <small class="float-right">10 days ago</small>
-                        <p class=""><%= comment.comment %></p>
 
+                        <div>
+                            <small class="float-right">
+                                <a href="/blogs/<%= blog._id %>/comments/<%= comment._id %>/edit">edit</a>
+                                <form action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE"
+                                    class="d-inline" method="POST">
+                                    <button class="btn btn-outline-danger btn-sm" type="submit">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </form>
+                            </small>
+                            <p class=""><%= comment.comment %></p>
+                        </div>
                     </li>
                     <%})%>
                 </ul>

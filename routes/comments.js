@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
                     blog.save()
                         .then(() => {
                             console.log(`Comment posted successfully !`);
-                            res.redirect("/blogs/" + req.params.id);
+                            res.redirect(`/blogs/${req.params.id}`);
 
                         }).catch((err) => { console.log(`Error while posting comment ${err}`); });
 
@@ -30,10 +30,36 @@ router.post("/", (req, res) => {
         }).catch((err) => { console.log(`Error while finding Blog ${err}`); });
 });
 
-router.get("/edit", (req, res) => {
+router.get("/:commentId/edit", (req, res) => {
     Blog.findById(req.params.id)
         .then((blog) => {
-            res.render("comments/new", { blog: blog });
+            Comment.findById(req.params.commentId)
+                .then((comment) => {
+                    res.render("comments/edit",
+                        {
+                            blog: blog,
+                            comment: comment
+                        });
+
+                }).catch((err) => { console.log(err); });
+
+        }).catch((err) => { console.log(err); });
+});
+
+router.put("/:commentId", (req, res) => {
+    Comment.findByIdAndUpdate(req.params.commentId, req.body.comment)
+        .then((comment) => {
+            console.log("Updated Comment !!");
+            res.redirect(`/blogs/${req.params.id}`);
+
+        }).catch((err) => { console.log(err); });
+});
+
+router.delete("/:commentId", (req, res) => {
+    Comment.findByIdAndRemove(req.params.commentId)
+        .then(() => {
+            console.log("comment Deleted Successfully !!");
+            res.redirect(`/blogs/${req.params.id}`);
 
         }).catch((err) => { console.log(err); });
 });
