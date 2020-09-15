@@ -3,7 +3,7 @@ const Blog = require('../models/blog');
 const router = express.Router();
 
 // INDEX : Displays All Entities, here, Blogs
-router.get("/blogs", (req, res) => {
+router.get("/", (req, res) => {
     Blog.find({})
         .then((blogs) => {
             res.render("blogs/index", { blogs: blogs });
@@ -11,12 +11,12 @@ router.get("/blogs", (req, res) => {
 });
 
 // NEW : Renders a Form to Create a new Entity, here, Blog
-router.get("/blogs/new", (req, res) => {
+router.get("/new", (req, res) => {
     res.render("blogs/new");
 });
 
 // CREATE : Actually Creates a new Entity, here, Blog
-router.post("/blogs", (req, res) => {
+router.post("/", (req, res) => {
     console.log(req.body);
     req.body.blog.body = req.sanitize(req.body.blog.body);
     console.log("==============");
@@ -30,15 +30,18 @@ router.post("/blogs", (req, res) => {
 });
 
 // SHOW : Displays details of a particular Entity, here, Blog
-router.get("/blogs/:id", (req, res) => {
-    Blog.findById(req.params.id)
-        .then((blog) => {
+router.get("/:id", (req, res) => {
+    Blog.findById(req.params.id).populate("comments").exec((err, blog) => {
+        if (err) {
+            console.log("Error", err);
+        } else {
             res.render("blogs/show", { blog: blog });
-        }).catch((err) => { console.log("Error", err) });
+        }
+    });
 });
 
 // EDIT : Renders a form to gather info to Update an Entity, here, Blog
-router.get("/blogs/:id/edit", (req, res) => {
+router.get("/:id/edit", (req, res) => {
     Blog.findById(req.params.id)
         .then((blog) => {
             res.render("blogs/edit", { blog: blog });
@@ -46,7 +49,7 @@ router.get("/blogs/:id/edit", (req, res) => {
 });
 
 // UPDATE : Actually Updates an Existing Entity, here, Blog
-router.put("/blogs/:id", (req, res) => {
+router.put("/:id", (req, res) => {
     Blog.findByIdAndUpdate(req.params.id, req.body.newBlog)
         .then((blog) => {
             console.log("Blog Updated", blog);
@@ -55,7 +58,7 @@ router.put("/blogs/:id", (req, res) => {
 });
 
 // DELETE : Deletes an Entity from the database permanently, here, Blog
-router.delete("/blogs/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
     Blog.findByIdAndRemove(req.params.id)
         .then((blog) => {
             console.log("Deleted Blog", blog);

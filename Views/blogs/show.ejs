@@ -4,7 +4,7 @@
 </div> -->
 <div class="container-md my-5">
     <div class="row justify-content-center">
-        <div id="detail" class="col-lg-10 rounded-lg py-4 px-3 mx-3">
+        <div id="detail" class="col-lg-10 rounded-lg py-4 px-3 mx-3 my-5">
             <header class="header">
                 <h2 class="display-4 title"><%= blog.title%></h2>
             </header>
@@ -20,6 +20,26 @@
             <form class="d-inline" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
                 <button type="submit" class="btn btn-outline-danger px-3">Delete</button>
             </form>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class=" mb-5 p-3 bg-light border border-light rounded">
+                <a href="/blogs/<%= blog._id %>/comments/new" class="btn btn-primary btn-sm float-right">
+                    Leave a Review</a>
+                <h4 class="pl-0">Reviews</h4>
+                <hr>
+                <ul class="list-unstyled">
+                    <%blog.comments.forEach(comment => { %>
+                    <% console.log(comment)%>
+                    <li class="mb-3">
+                        <small class="float-right">10 days ago</small>
+                        <p class=""><%= comment.comment %></p>
+
+                    </li>
+                    <%})%>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

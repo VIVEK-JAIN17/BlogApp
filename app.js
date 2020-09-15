@@ -4,6 +4,7 @@ const methodOverride = require('method-override');
 const expressSanitizer = require('express-sanitizer');
 const mongoose = require('mongoose');
 const blogRouter = require('./routes/blogs');
+const commentRouter = require('./routes/comments');
 
 const app = express();
 
@@ -13,7 +14,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(expressSanitizer());
-app.use(blogRouter);
+
+app.use("/blogs", blogRouter);
+app.use("/blogs/:id/comments", commentRouter);
 
 // APP/MONGOOSE CONFIG
 const url = "mongodb://localhost:27017/blogApp";

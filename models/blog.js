@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // MONGOOSE/MODEL CONFIG
-var blogSchema = new Schema({
+const blogSchema = new Schema({
     image: {
         type: String,
         required: true
@@ -19,6 +19,12 @@ var blogSchema = new Schema({
         type: String,
         required: true
     },
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
+        }
+    ]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Blog', blogSchema);
