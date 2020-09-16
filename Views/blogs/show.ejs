@@ -13,7 +13,7 @@
             </div>
             <div><%- blog.body -%></div>
             <div class="py-2">
-                <h3 class="d-inline"> <i class="fa fa-user-circle-o pr-2"></i> <%= blog.name%></h3>
+                <h3 class="d-inline"> <i class="fa fa-user-circle-o pr-2"></i> <%= blog.author.username%></h3>
                 <span class="float-right"> <strong>Created At - </strong><%= blog.createdAt.toDateString()%></span>
             </div>
             <a class="btn btn-outline-warning px-4 mr-2" href="/blogs/<%= blog._id %>/edit">Edit</a>
@@ -33,13 +33,13 @@
                     <%blog.comments.forEach(comment => { %>
                     <li class="mb-3">
                         <small class="float-right">10 days ago</small>
-                        <strong><i class="fa fa-user-circle-o mr-2"></i>Author</strong>
+                        <strong><i class="fa fa-user-circle-o mr-2"></i><%= comment.author.username %></strong>
                         <div>
                             <small class="float-right">
                                 <a href="/blogs/<%= blog._id %>/comments/<%= comment._id %>/edit">edit</a>
                                 <form action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE"
                                     class="d-inline ml-2" method="POST">
-                                    <button class="btn btn-outline-danger btn-sm" type="submit">
+                                    <button class="btn btn-outline-danger btn-sm border-none" type="submit">
                                         <i class="fa fa-trash-o"></i>
                                     </button>
                                 </form>

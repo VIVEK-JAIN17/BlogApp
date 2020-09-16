@@ -1,5 +1,6 @@
 const express = require('express');
 const Blog = require('../models/blog');
+const auth = require('../middlewares');
 const router = express.Router();
 
 // INDEX : Displays All Entities, here, Blogs
@@ -11,21 +12,28 @@ router.get("/", (req, res) => {
 });
 
 // NEW : Renders a Form to Create a new Entity, here, Blog
-router.get("/new", (req, res) => {
+router.get("/new", auth.isLoggedin, (req, res) => {
     res.render("blogs/new");
 });
 
 // CREATE : Actually Creates a new Entity, here, Blog
-router.post("/", (req, res) => {
-    console.log(req.body);
+router.post("/", auth.isLoggedin, (req, res) => {
+    // console.log(req.body);
     req.body.blog.body = req.sanitize(req.body.blog.body);
-    console.log("==============");
-    console.log(req.body);
+    // console.log("==============");
+    // console.log(req.body);
     var newBlog = req.body.blog;
     Blog.create(newBlog)
         .then((blog) => {
-            console.log("created a new Entity(blog)", blog);
-            res.redirect('/blogs');
+            blog.author.id = req.user._id;
+            blog.author.username = req.user.username
+            blog.save()
+                .then((blog) => {
+                    console.log("created a new blog");
+                    res.redirect('/blogs');
+
+                }).catch((err) => { console.log(err); });
+
         }).catch((err) => { console.log(err) });
 });
 
@@ -52,7 +60,7 @@ router.get("/:id/edit", (req, res) => {
 router.put("/:id", (req, res) => {
     Blog.findByIdAndUpdate(req.params.id, req.body.newBlog)
         .then((blog) => {
-            console.log("Blog Updated", blog);
+            console.log("Blog Updated");
             res.redirect("/blogs/" + req.params.id);
         }).catch((err) => { console.log("Error", err) });
 });
@@ -61,7 +69,7 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
     Blog.findByIdAndRemove(req.params.id)
         .then((blog) => {
-            console.log("Deleted Blog", blog);
+            console.log("Deleted Blog");
             res.redirect("/blogs");
         }).catch((err) => { console.log("ERROR", err) });
 });

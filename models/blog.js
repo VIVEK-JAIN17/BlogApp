@@ -15,9 +15,14 @@ const blogSchema = new Schema({
         type: String,
         required: true
     },
-    name: {
-        type: String,
-        required: true
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: {
+            type: String
+        }
     },
     comments: [
         {

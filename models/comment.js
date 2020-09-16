@@ -5,15 +5,15 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // author: {
-    //     id: {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: User
-    //     },
-    //     username: {
-    //         type: String,
-    //     }
-    // }
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: {
+            type: String,
+        }
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model("Comment", commentSchema);

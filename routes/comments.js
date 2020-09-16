@@ -1,9 +1,10 @@
 const express = require('express');
 const Blog = require('../models/blog');
 const Comment = require('../models/comment');
+const auth = require('../middlewares');
 const router = express.Router({ mergeParams: true });
 
-router.get("/new", (req, res) => {
+router.get("/new", auth.isLoggedin, (req, res) => {
     Blog.findById(req.params.id)
         .then((blog) => {
             res.render("comments/new", { blog: blog });
@@ -11,21 +12,25 @@ router.get("/new", (req, res) => {
         }).catch((err) => { console.log(err); });
 });
 
-router.post("/", (req, res) => {
+router.post("/", auth.isLoggedin, (req, res) => {
     Blog.findById(req.params.id)
         .then((blog) => {
             Comment.create(req.body.comment)
                 .then((comment) => {
                     console.log("comment created successfuly !");
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    return comment.save();
+
+                }).then((comment) => {
                     blog.comments.push(comment);
-                    blog.save()
-                        .then(() => {
-                            console.log(`Comment posted successfully !`);
-                            res.redirect(`/blogs/${req.params.id}`);
+                    return blog.save()
 
-                        }).catch((err) => { console.log(`Error while posting comment ${err}`); });
+                }).then((blog) => {
+                    console.log(`Comment posted successfully !`);
+                    res.redirect(`/blogs/${req.params.id}`);
 
-                }).catch((err) => { console.log(`Error while creating comment ${err}`); });
+                }).catch((err) => { console.log(`Error while posting comment ${err}`); });
 
         }).catch((err) => { console.log(`Error while finding Blog ${err}`); });
 });
