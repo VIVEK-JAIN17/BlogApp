@@ -35,7 +35,7 @@ router.post("/", auth.isLoggedin, (req, res) => {
         }).catch((err) => { console.log(`Error while finding Blog ${err}`); });
 });
 
-router.get("/:commentId/edit", (req, res) => {
+router.get("/:commentId/edit", auth.authComment, (req, res) => {
     Blog.findById(req.params.id)
         .then((blog) => {
             Comment.findById(req.params.commentId)
@@ -51,7 +51,7 @@ router.get("/:commentId/edit", (req, res) => {
         }).catch((err) => { console.log(err); });
 });
 
-router.put("/:commentId", (req, res) => {
+router.put("/:commentId", auth.authComment, (req, res) => {
     Comment.findByIdAndUpdate(req.params.commentId, req.body.comment)
         .then((comment) => {
             console.log("Updated Comment !!");
@@ -60,7 +60,7 @@ router.put("/:commentId", (req, res) => {
         }).catch((err) => { console.log(err); });
 });
 
-router.delete("/:commentId", (req, res) => {
+router.delete("/:commentId", auth.authComment, (req, res) => {
     Comment.findByIdAndRemove(req.params.commentId)
         .then(() => {
             console.log("comment Deleted Successfully !!");

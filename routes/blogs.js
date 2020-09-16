@@ -18,10 +18,7 @@ router.get("/new", auth.isLoggedin, (req, res) => {
 
 // CREATE : Actually Creates a new Entity, here, Blog
 router.post("/", auth.isLoggedin, (req, res) => {
-    // console.log(req.body);
     req.body.blog.body = req.sanitize(req.body.blog.body);
-    // console.log("==============");
-    // console.log(req.body);
     var newBlog = req.body.blog;
     Blog.create(newBlog)
         .then((blog) => {
@@ -31,25 +28,20 @@ router.post("/", auth.isLoggedin, (req, res) => {
                 .then((blog) => {
                     console.log("created a new blog");
                     res.redirect('/blogs');
-
                 }).catch((err) => { console.log(err); });
-
         }).catch((err) => { console.log(err) });
 });
 
 // SHOW : Displays details of a particular Entity, here, Blog
 router.get("/:id", (req, res) => {
-    Blog.findById(req.params.id).populate("comments").exec((err, blog) => {
-        if (err) {
-            console.log("Error", err);
-        } else {
+    Blog.findById(req.params.id).populate("comments")
+        .then((blog) => {
             res.render("blogs/show", { blog: blog });
-        }
-    });
+        }).catch((err) => { console.log("Error", err); });
 });
 
 // EDIT : Renders a form to gather info to Update an Entity, here, Blog
-router.get("/:id/edit", (req, res) => {
+router.get("/:id/edit", auth.authBlog, (req, res) => {
     Blog.findById(req.params.id)
         .then((blog) => {
             res.render("blogs/edit", { blog: blog });
@@ -57,7 +49,7 @@ router.get("/:id/edit", (req, res) => {
 });
 
 // UPDATE : Actually Updates an Existing Entity, here, Blog
-router.put("/:id", (req, res) => {
+router.put("/:id", auth.authBlog, (req, res) => {
     Blog.findByIdAndUpdate(req.params.id, req.body.newBlog)
         .then((blog) => {
             console.log("Blog Updated");
@@ -66,7 +58,7 @@ router.put("/:id", (req, res) => {
 });
 
 // DELETE : Deletes an Entity from the database permanently, here, Blog
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth.authBlog, (req, res) => {
     Blog.findByIdAndRemove(req.params.id)
         .then((blog) => {
             console.log("Deleted Blog");

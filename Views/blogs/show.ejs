@@ -16,10 +16,12 @@
                 <h3 class="d-inline"> <i class="fa fa-user-circle-o pr-2"></i> <%= blog.author.username%></h3>
                 <span class="float-right"> <strong>Created At - </strong><%= blog.createdAt.toDateString()%></span>
             </div>
+            <% if(currentUser && blog.author.id.equals(currentUser._id)) { %>
             <a class="btn btn-outline-warning px-4 mr-2" href="/blogs/<%= blog._id %>/edit">Edit</a>
             <form class="d-inline" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
                 <button type="submit" class="btn btn-outline-danger px-3">Delete</button>
             </form>
+            <% } %>
         </div>
     </div>
     <div class="row justify-content-center">
@@ -31,10 +33,11 @@
                 <hr>
                 <ul class="list-unstyled">
                     <%blog.comments.forEach(comment => { %>
-                    <li class="mb-3">
+                    <li class="mb-0 pb-0">
                         <small class="float-right">10 days ago</small>
                         <strong><i class="fa fa-user-circle-o mr-2"></i><%= comment.author.username %></strong>
                         <div>
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
                             <small class="float-right">
                                 <a href="/blogs/<%= blog._id %>/comments/<%= comment._id %>/edit">edit</a>
                                 <form action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE"
@@ -44,6 +47,7 @@
                                     </button>
                                 </form>
                             </small>
+                            <% } %>
                             <p class=""><%= comment.comment %></p>
                         </div>
                     </li>
