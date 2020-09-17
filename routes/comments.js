@@ -54,6 +54,7 @@ router.get("/:commentId/edit", auth.authComment, (req, res) => {
 router.put("/:commentId", auth.authComment, (req, res) => {
     Comment.findByIdAndUpdate(req.params.commentId, req.body.comment)
         .then((comment) => {
+            req.flash("success", "Updated Comment !!");
             console.log("Updated Comment !!");
             res.redirect(`/blogs/${req.params.id}`);
 
@@ -63,6 +64,7 @@ router.put("/:commentId", auth.authComment, (req, res) => {
 router.delete("/:commentId", auth.authComment, (req, res) => {
     Comment.findByIdAndRemove(req.params.commentId)
         .then(() => {
+            req.flash("success", "Your Comment was Deleted Successfully !!");
             console.log("comment Deleted Successfully !!");
             res.redirect(`/blogs/${req.params.id}`);
 

@@ -87,3 +87,8 @@ button.border-none {
   font-size: 1.2rem;
   border: none !important;
 }
+
+/* flash */
+div.alert {
+  text-transform: uppercase;
+}

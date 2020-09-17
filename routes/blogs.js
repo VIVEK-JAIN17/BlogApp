@@ -52,6 +52,7 @@ router.get("/:id/edit", auth.authBlog, (req, res) => {
 router.put("/:id", auth.authBlog, (req, res) => {
     Blog.findByIdAndUpdate(req.params.id, req.body.newBlog)
         .then((blog) => {
+            req.flash("success", "Blog Updated");
             console.log("Blog Updated");
             res.redirect("/blogs/" + req.params.id);
         }).catch((err) => { console.log("Error", err) });
@@ -61,6 +62,7 @@ router.put("/:id", auth.authBlog, (req, res) => {
 router.delete("/:id", auth.authBlog, (req, res) => {
     Blog.findByIdAndRemove(req.params.id)
         .then((blog) => {
+            req.flash("success", "Deleted Blog");
             console.log("Deleted Blog");
             res.redirect("/blogs");
         }).catch((err) => { console.log("ERROR", err) });

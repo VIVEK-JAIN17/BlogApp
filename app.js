@@ -6,6 +6,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const expressSanitizer = require('express-sanitizer');
+const flash = require('connect-flash');
 
 // Passport
 const passport = require('passport');
@@ -28,6 +29,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(expressSanitizer());
+app.use(flash());
 
 // PASSPORT CONFIG
 app.use(require('express-session')({
@@ -45,6 +47,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 
