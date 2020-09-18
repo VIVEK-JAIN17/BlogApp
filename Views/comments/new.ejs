@@ -9,7 +9,7 @@
             <form action="/blogs/<%= blog._id %>/comments" method="POST">
                 <div class="form-group">
                     <textarea class="form-control" name="comment[comment]" id="comment" rows="5"
-                        placeholder="Write your Comment Here !"></textarea>
+                        placeholder="Write your Comment Here !" required></textarea>
                 </div>
                 <div class="form-group text-center">
                     <input type="submit" class="btn btn-primary form-control" value="Post Comment" />

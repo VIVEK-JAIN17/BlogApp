@@ -9,7 +9,7 @@ ul.navbar-nav > li.nav-item > a.nav-link {
   text-align: center;
   padding-top: 7.5rem;
   padding-bottom: 7.5rem;
-  margin-top: 50px;
+  margin-top: 60px;
   text-transform: uppercase;
 }
 
@@ -91,4 +91,6 @@ button.border-none {
 /* flash */
 div.alert {
   text-transform: uppercase;
+  position: fixed;
+  top: 60;
 }

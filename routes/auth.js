@@ -23,11 +23,12 @@ router.route("/signup")
         var newUser = new User({ username: req.body.username });
         User.register(newUser, req.body.password, (err, user) => {
             if (err) {
+                req.flash("error", err.message);
                 console.log("Error while signing up !!");
                 return res.redirect("/signup");
             }
             passport.authenticate('local')(req, res, () => {
-                req.flash("error", `User registered successfully !! Welcome ${user.username}`);
+                req.flash("success", `User registered successfully !! Welcome ${user.username}`);
                 console.log(`User registered successfully !! Welcome ${user.username}`);
                 res.redirect("/blogs");
 
@@ -60,7 +61,6 @@ router.get("/logout", auth.isLoggedin, (req, res) => {
     console.log(`Logging out user ${req.session.passport.user}`);
     req.session.destroy();
     res.clearCookie('session-id');
-    // req.flash("success", "Logged out Scuccessfully !");
     console.log("Logged out Scuccessfully !");
     return res.redirect("/");
 });
